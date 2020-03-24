@@ -1,0 +1,106 @@
+#screen{
+                border: 10px solid #CCC;
+                image-rendering: pixelated;
+                image-rendering: crisp-edges;
+                image-rendering: -moz-crisp-edges;
+                width: 500px;
+                height: 400px;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                margin-left: -250px; /*metade do width*/
+                margin-top: -150px; /*metade do height*/
+
+}
+#player-information{
+    position: absolute;
+    width: 520px;
+    height: 100px;
+   
+    left: 50%;
+    margin-left: -250px; /*metade do width*/
+}
+#player-information-div1{
+    width: 168px;
+    height: 100px;
+    
+    display: inline-block;
+    text-align: center;
+    
+}
+#player-information-label1{
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 25px;
+    display: inline-block;
+    margin-bottom: 20px;
+    
+}
+#player-information-id{
+    color:blue;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 15px;
+    display: inline-block;
+
+}
+#player-information-skin{
+    color:blue;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 20px;
+    display: inline-block;
+
+}
+#player-information-point{
+    color:blue;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 20px;
+    display: inline-block;
+
+}
+
+#score-table{
+                border: 5px solid #663399;
+                border-radius: 10px;
+                width: 300px;
+                height: 300px;
+                position: absolute;
+                left: 75%;
+                top: 50%;
+                margin-top: -150px; /*metade do height*/
+                
+
+}
+#score-table-player{
+    
+    margin-top: 20px;
+    width: 176px;
+    height: 250px;
+    left:0%;
+    display:inline-block;
+    text-align: center;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 20px;
+    
+}
+#score-table-points{
+    
+    margin-top: 20px;
+    width: 116px;
+    height: 250px;
+    left:0%;
+    display:inline-block;
+    text-align: center;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 20px;
+    
+}
+
+.score-table-label{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 15px;
+    
+    display: inline-block;
+    margin-left: auto;
+    margin-top: 20px;
+}
+
+

@@ -1,0 +1,175 @@
+<html>
+
+    <head>
+        <meta charset="utf-8">
+
+        <title> JOGO MULTIPLAYER </title>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <link href="style.css" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    </head>
+
+    <body>
+
+
+
+        <div id="player-information">
+                
+                
+                
+
+                <div id="player-information-div1">
+                    <label id="player-information-label1" >PLAYER ID</label><br>
+                    <label id="player-information-id" >XXXXXXX</label>
+                </div>
+
+                <div id="player-information-div1">
+                    <label id="player-information-label1" >PLAYER SKIN</label><br>
+                    <label id="player-information-skin" >BLUE</label>
+                </div>
+
+                <div id="player-information-div1">
+                    <label id="player-information-label1" >PLAYER POINTS</label><br>
+                    <label id="player-information-point" >0</label>
+                </div>
+                
+
+
+        </div>
+
+        
+        
+        <canvas id="screen" width="20" height="18"> </canvas>
+
+        <div id="score-table">
+            <div id="score-table-player">
+                PLAYER<br>
+                <label id="player1Id" class="score-table-label">xxxxxxxxxxx</label><br>
+                <label id="player2Id" class="score-table-label">xxxxxxxxxxxxxxx</label><br>
+                <label id="player3Id" class="score-table-label">xxxxxxx</label><br>
+                <label id="player4Id" class="score-table-label">xxxxxxx</label><br>
+                <label id="player5Id" class="score-table-label">xxxxxxxxxxxxxx</label><br>
+                
+            </div>
+            <div id="score-table-points">
+                POINTS<br>
+                <label id="player1Points" class="score-table-label">0</label><br>
+                <label id="player2Points" class="score-table-label">0</label><br>
+                <label id="player3Points" class="score-table-label">0</label><br>
+                <label id="player4Points" class="score-table-label">0</label><br>
+                <label id="player5Points" class="score-table-label">0</label><br>
+            </div>
+            
+          
+        </div>
+        
+        <script type="module">
+
+
+            
+
+            import renderScreen from "./render-screen.js"
+
+            import createGame from "./game.js"
+            
+            import createKeyboardListener from "./keyboard-listener.js"
+            
+            const  game = createGame();
+            const keyboardListener = createKeyboardListener(document)
+            
+
+
+            const socket = io()
+
+            socket.on('connect', () => {
+                
+                const playerId = socket.id
+                document.getElementById("player-information-id").innerHTML =playerId;
+                console.log(`Player connected on Client with id: ${playerId}`)
+
+                const screen = document.getElementById('screen')
+                renderScreen(screen, game, requestAnimationFrame, playerId)
+            })
+
+
+
+            socket.on("setup",(state)=>{
+                const playerId = socket.id
+                game.setState(state)
+
+                keyboardListener.registerPlayerId(playerId)
+                keyboardListener.subscribe(game.movePlayer)
+                keyboardListener.subscribe((command) =>{
+                    socket.emit('move-player',command)
+                } )
+                
+            })
+            
+            socket.on('add-player', (command) => {
+                console.log(`Receiving ${command.type} -> ${command.playerId}`)
+                game.addPlayer(command)
+            })
+            socket.on('remove-player', (command) => {
+                console.log(`Receiving ${command.type} -> ${command.playerId}`)
+                game.removePlayer(command)
+            })
+            socket.on("move-player",(command) =>{
+                
+                console.log(`Receiving ${command.type} -> ${command.playerId}`)
+
+                const playerId = socket.id
+                if(playerId !== command.playerId){
+                    game.movePlayer(command)
+                }
+            })
+
+            socket.on('add-fruit', (command) => {
+                console.log(`Receiving ${command.type} -> ${command.fruitId}`)
+                game.addFruit(command)
+            })
+            socket.on('remove-fruit', (command) => {
+                console.log(`Receiving ${command.type} -> ${command.playerId}`)
+                game.removeFruit(command)
+            })
+
+
+            socket.on('add-point', (command) => {
+                
+                if(command.playerId == socket.id){
+                    document.getElementById("player-information-point").innerHTML =command.playerPoints;
+                }
+                
+                    
+  
+            })
+            socket.on('game-points', (command) => {
+                
+                document.getElementById("player1Id").innerHTML =command.player1Id;
+                document.getElementById("player1Points").innerHTML =command.player1Points;
+                
+                document.getElementById("player2Id").innerHTML =command.player2Id;
+                document.getElementById("player2Points").innerHTML =command.player2Points;
+
+                /*document.getElementById("player3Id").innerHTML =command.player3Id;
+                document.getElementById("player3Points").innerHTML =command.player1Id;
+
+                document.getElementById("player4Id").innerHTML =command.player1Id;
+                document.getElementById("player4Points").innerHTML =command.player1Id;
+
+                document.getElementById("player5Id").innerHTML =command.player1Id;
+                document.getElementById("player5Points").innerHTML =command.player1Id;*/
+
+                
+                    
+  
+            })
+            
+
+            
+            
+
+        </script>
+    </body>
+
+</html>
